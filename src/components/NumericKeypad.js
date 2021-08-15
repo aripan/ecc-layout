@@ -30,76 +30,17 @@ function NumericKeypad() {
             let suggestAmountTwoArr=(baseAmount +1).toString().split("");
             let lastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-1]
             let secondLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-2]
-
             let amountTwoModified;
-            // if((lastValueOfArr==="0" || lastValueOfArr >="5") && secondLastValueOfArr !== "0" && secondLastValueOfArr !== "9"){
 
-            //     secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
-            //     lastValueOfArr = "0"
-            //     amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-            //     console.log(amountTwoModified)
-            //     console.log(suggestAmountTwoArr.join(""))
-                    
-            // } 
-
-            // if((lastValueOfArr==="0" || lastValueOfArr >="5") && secondLastValueOfArr === "9"){
-                
-            //     let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
-            //     if(thirdLastValueOfArr){
-            //         thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
-            //         secondLastValueOfArr = "0"
-            //         lastValueOfArr = "0"
-
-            //         amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
-            //     }else{
-            //         thirdLastValueOfArr= "1"
-            //         secondLastValueOfArr = "0"
-            //         lastValueOfArr = "0"
-
-            //         amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
-            //     }
-            //     console.log(suggestAmountTwoArr)
-            // }
-            
-            // if((lastValueOfArr==="0" || lastValueOfArr ==="5") && secondLastValueOfArr === "0"){
-            //     secondLastValueOfArr = "1"
-            //     lastValueOfArr = "0"
-
-            //     amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-            //     console.log(suggestAmountTwoArr)
-            // }
-            
-            // if(lastValueOfArr >"0" && lastValueOfArr <"5"){
-            //     lastValueOfArr = "5"
-            //     amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-1, 1, lastValueOfArr)
-            //     console.log(suggestAmountTwoArr)    
-            // }
-
-            if(lastValueOfArr==="0" || lastValueOfArr >="5"){
+            if(lastValueOfArr ==="0" || lastValueOfArr >="5"){
                 if(secondLastValueOfArr !== "0" && secondLastValueOfArr !== "9"){
                     secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
-                lastValueOfArr = "0"
-                amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-                console.log(amountTwoModified)
-                console.log(suggestAmountTwoArr.join(""))
-                }
-                if(secondLastValueOfArr === "9"){
-                    let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
-                if(thirdLastValueOfArr){
-                    thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
-                    secondLastValueOfArr = "0"
                     lastValueOfArr = "0"
-
-                    amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
-                }else{
-                    thirdLastValueOfArr= "1"
-                    secondLastValueOfArr = "0"
-                    lastValueOfArr = "0"
-
-                    amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                    console.log(amountTwoModified)
+                    console.log(suggestAmountTwoArr.join(""))
                 }
-                    console.log(suggestAmountTwoArr)
-                }
+
                 if(secondLastValueOfArr === "0"){
                     secondLastValueOfArr = "1"
                     lastValueOfArr = "0"
@@ -108,33 +49,91 @@ function NumericKeypad() {
                     console.log(suggestAmountTwoArr)
                 }
 
+                if(secondLastValueOfArr === "9"){
+                    let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
+                    if(thirdLastValueOfArr){
+                        thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
+                        secondLastValueOfArr = "0"
+                        lastValueOfArr = "0"
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }else{
+                        thirdLastValueOfArr= "1"
+                        secondLastValueOfArr = "0"
+                        lastValueOfArr = "0"
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }
+                        console.log(suggestAmountTwoArr)
+                    }
+               
+
             }else{
                 lastValueOfArr = "5"
                 amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-1, 1, lastValueOfArr)
                 console.log(suggestAmountTwoArr) 
             }
-            
-            // if(lastValueOfArr >"5"){
-            //     secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
-            //     lastValueOfArr = "0"
-            //     amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-            //     console.log(suggestAmountTwoArr)
-                
-            // }
 
             // //! 3rd suggestion
-            // let amountTwoArr= amountTwo.split("");
-            // let amountThree;
-            // if(amountTwoArr[amountTwoArr.length-2]<"5"){
-            //     amountThree= "50"
-            //     setSuggestedAmountThree(amountThree)
-            // }
-            
-            
-            // if(amountTwoArr[amountTwoArr.length-2]>"5"){
-            //     amountThree= "100"
-            //     setSuggestedAmountThree(amountThree)
-            // }
+            console.log(suggestAmountTwoArr) 
+
+            // Either lastValueOfArr will be "0" or "5"
+
+            if(lastValueOfArr ==="0"){
+                if(secondLastValueOfArr==="0" || secondLastValueOfArr>="5"){
+                    let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
+                    if(thirdLastValueOfArr){
+                        thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
+                        secondLastValueOfArr = "0"
+                        
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 2, thirdLastValueOfArr, secondLastValueOfArr)
+                    }else{
+                        thirdLastValueOfArr= "1"
+                        secondLastValueOfArr = "0"
+                       
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, thirdLastValueOfArr, secondLastValueOfArr)
+                    }
+                        console.log(suggestAmountTwoArr)
+                }else{
+                    secondLastValueOfArr = "5"
+                    
+    
+                    amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 1, secondLastValueOfArr)
+                    console.log(suggestAmountTwoArr)
+                }
+            }else{
+                if(secondLastValueOfArr ==="9"){
+                    let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
+                    if(thirdLastValueOfArr){
+                        thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
+                        secondLastValueOfArr = "0"
+                        lastValueOfArr = "0"
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }else{
+                        thirdLastValueOfArr= "1"
+                        secondLastValueOfArr = "0"
+                        lastValueOfArr = "0"
+
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }
+                        console.log(suggestAmountTwoArr)
+                }
+                if((secondLastValueOfArr==="0" || secondLastValueOfArr>="5") && secondLastValueOfArr !== "9"){
+                    secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
+                    lastValueOfArr = "0"
+                    amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                    console.log(suggestAmountTwoArr.join(""))
+                }else{
+                    secondLastValueOfArr = "5"
+                    lastValueOfArr = "0"
+    
+                    amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                    console.log(suggestAmountTwoArr)
+                }
+            }
 
             // //! 4th suggestion
             // let amountFour= Number(amountThree) * 2
