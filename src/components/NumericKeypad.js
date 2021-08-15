@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import NumericPad from './NumericPad';
+import SuggestedPrices from './SuggestedPrices';
 
 function NumericKeypad() {
     const [customerNeedToPay, setCustomerNeedToPay] = useState("")
@@ -213,13 +214,9 @@ function NumericKeypad() {
             <input type="text" value={receivedFromCustomer} onChange={e=>setReceivedFromCustomer(e.target.value)}/>
            
            {/* Suggested amounts with the amount needs to pay */}
-           {showSuggestionButtons?(<div onClick={handleSuggestedBtn}> 
-                <button> {suggestedAmountFour}</button>
-                <button> {suggestedAmountThree}</button>
-                <button> {suggestedAmountTwo}</button>
-                <button> {suggestedAmountOne}</button>
-                <button> {customerNeedToPay}</button>
-            </div>): null}
+           {showSuggestionButtons? 
+                <SuggestedPrices customerNeedToPay={customerNeedToPay} suggestedAmountOne={suggestedAmountOne} suggestedAmountTwo={suggestedAmountTwo} suggestedAmountThree={suggestedAmountThree} suggestedAmountFour={suggestedAmountFour} handleSuggestedBtn={handleSuggestedBtn} /> 
+           : null}
             
           {changeForCustomer}
            

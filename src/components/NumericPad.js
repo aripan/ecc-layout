@@ -3,7 +3,7 @@ import styles from "./NumericKeypad.module.css";
 
 const NumericPad = ({handleButton}) => {
     return (
-        <div>
+       
             <div className={styles.container}>
                 <div className={styles.keypad} onClick={(e) => {handleButton(e)}}>
                     <button>7</button>
@@ -20,7 +20,7 @@ const NumericPad = ({handleButton}) => {
                     <button>,</button>
                 </div>
             </div>
-        </div>
+       
     )
 }
 
