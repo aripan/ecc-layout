@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import styles from "./NumericKeypad.module.css";
 
 function NumericKeypad() {
-    const [result, setResult] = useState("")
-    const [amountToPay, setAmountToPay] = useState(0)
+    const [customerNeedToPay, setCustomerNeedToPay] = useState("")
     const [suggestedAmountOne, setSuggestedAmountOne] = useState(0)
     const [suggestedAmountTwo, setSuggestedAmountTwo] = useState(1)
     const [suggestedAmountThree, setSuggestedAmountThree] = useState(2)
     const [suggestedAmountFour, setSuggestedAmountFour] = useState(3)
+    const [receivedFromCustomer, setReceivedFromCustomer] = useState("")
+    const [changeForCustomer, setChangeForCustomer] = useState("")
+    const [showSuggestionButtons, setShowSuggestionButtons] = useState(false)
+
 
     // method to handle the numeric pad
     const handleButton =(e)=>{
         if(e.target.innerText==="C"){
-            setResult(result.slice(0, result.length-1))
+            setCustomerNeedToPay(customerNeedToPay.slice(0, customerNeedToPay.length-1))
         }else{
-            setResult(result.concat(e.target.innerText))
+            setCustomerNeedToPay(customerNeedToPay.concat(e.target.innerText))
         }
     }
 
@@ -24,19 +27,20 @@ function NumericKeypad() {
             let formattedNum = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' })
             setFunc(formattedNum.format(strToNum))
     }
-
     
 
     // triggering Enter button for the input field
     const handleInput=(e)=>{
         if(e.key==="Enter"){
-            let formattedResult = result.replace(/,/g, ".").split("")
-            // console.log(result.replace(/,/g, ".").split(""))
-            formatNumber(formattedResult, setAmountToPay);
+            setShowSuggestionButtons(true);
+            let formattedValue = customerNeedToPay.replace(/,/g, ".").split("")
+            // console.log(customerNeedToPay.replace(/,/g, ".").split(""))
+            // formatNumber(formattedValue, setAmountToPay);
+            formatNumber(formattedValue, setCustomerNeedToPay);
 
             //! 1st suggestion
-            // let baseAmount= Number(result.split(",")[0]);
-            let suggestAmountTwoArr = (Number(result.split(",")[0]) + 1).toString().split("");
+            // let baseAmount= Number(customerNeedToPay.split(",")[0]);
+            let suggestAmountTwoArr = (Number(customerNeedToPay.split(",")[0]) + 1).toString().split("");
             formatNumber(suggestAmountTwoArr, setSuggestedAmountOne)
             // setSuggestedAmountOne(baseAmount +1) 
 
@@ -102,13 +106,15 @@ function NumericKeypad() {
                     if(thirdLastValueOfArr){
                         thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
                         secondLastValueOfArr = "0"
+                        lastValueOfArr="0"
                         
-                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 2, thirdLastValueOfArr, secondLastValueOfArr)
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                     }else{
                         thirdLastValueOfArr= "1"
                         secondLastValueOfArr = "0"
+                        lastValueOfArr="0"
                     
-                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, thirdLastValueOfArr, secondLastValueOfArr)
+                        amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                     }
                     // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
                     formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
@@ -183,20 +189,39 @@ function NumericKeypad() {
             }
         }
     }
+
+    const handleSuggestedBtn =(e)=>{
+        setReceivedFromCustomer(e.target.innerText)
+    }
     
+    const handlePayment=()=>{
+
+        // (receivedFromCustomer).replace(/[, . €]/g,"")) -> removing all signs mentioned here
+        let customerPaid = Number(((receivedFromCustomer).replace(/[, . €]/g,"")))
+        let bill = Number(((customerNeedToPay).replace(/[, . €]/g,"")))
+        let change = (customerPaid- bill)/100;
+        let formatChange = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(change)
+        setChangeForCustomer(formatChange)
+        setCustomerNeedToPay("")
+        setReceivedFromCustomer("")
+        setShowSuggestionButtons(false);
+        
+    }
     return (
         <div>
-            <input type="text" value={result} onChange={e=>setResult(e.target.value)} onKeyUp={handleInput}/>
+           <input type="text" value={customerNeedToPay} onChange={e=>setCustomerNeedToPay(e.target.value)} onKeyUp={handleInput}/>
+            <input type="text" value={receivedFromCustomer} onChange={e=>setReceivedFromCustomer(e.target.value)}/>
            
            {/* Suggested amounts with the amount needs to pay */}
-        <div> 
-            <button>{suggestedAmountFour}</button>
-            <button>{suggestedAmountThree}</button>
-            <button>{suggestedAmountTwo}</button>
-            <button>{suggestedAmountOne}</button>
-            <button>{amountToPay}</button>
-        </div>
-          
+           {showSuggestionButtons?(<div onClick={handleSuggestedBtn}> 
+                <button> {suggestedAmountFour}</button>
+                <button> {suggestedAmountThree}</button>
+                <button> {suggestedAmountTwo}</button>
+                <button> {suggestedAmountOne}</button>
+                <button> {customerNeedToPay}</button>
+            </div>): null}
+            
+          {changeForCustomer}
            
            {/* Numeric keypad */}
             <div className={styles.container}>
@@ -216,6 +241,9 @@ function NumericKeypad() {
                 </div>
             </div>
             
+            <div>
+                <button onClick={handlePayment}>Payment</button>
+            </div>
         </div>
     )
 }
