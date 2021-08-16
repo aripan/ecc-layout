@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from './Modal';
+import styles from "./NumericKeypad.module.css";
 import NumericPad from './NumericPad';
 import SuggestedPrices from './SuggestedPrices';
 
-function NumericKeypad({customerNeedToPay, setCustomerNeedToPay, receivedFromCustomer, setReceivedFromCustomer, changeForCustomer, setChangeForCustomer, showSuggestionButtons, setShowSuggestionButtons, suggestedAmountOne, suggestedAmountTwo, suggestedAmountThree, suggestedAmountFour}) {
+function NumericKeypad({customerNeedToPay, setCustomerNeedToPay, receivedFromCustomer, setReceivedFromCustomer, showSuggestionButtons, setShowSuggestionButtons, suggestedAmountOne, suggestedAmountTwo, suggestedAmountThree, suggestedAmountFour}) {
+
+    const [showModal, setShowModal] = useState(false)
+    const [changeForCustomer, setChangeForCustomer] = useState("")
  
     // method to handle the numeric pad
     const handleButton =(e)=>{
@@ -29,25 +34,27 @@ function NumericKeypad({customerNeedToPay, setCustomerNeedToPay, receivedFromCus
         setCustomerNeedToPay("")
         setReceivedFromCustomer("")
         setShowSuggestionButtons(false);
+        setShowModal(true)
+      
         
     }
 
     return (
         <div>
+           <div className={styles.container}>
+               {/* Suggested amounts with the amount needs to pay */}
+                {showSuggestionButtons? 
+                        <SuggestedPrices customerNeedToPay={customerNeedToPay} suggestedAmountOne={suggestedAmountOne} suggestedAmountTwo={suggestedAmountTwo} suggestedAmountThree={suggestedAmountThree} suggestedAmountFour={suggestedAmountFour} handleSuggestedBtn={handleSuggestedBtn} /> 
+                : null}
+                
+                {/* Numeric keypad */}
+                <NumericPad handleButton={handleButton}/>
+                <div className={styles["payment-btn"]}>
+                    <button onClick={handlePayment}>Zahlen</button>
+                </div>
+           </div>
+           {showModal && <Modal setShowModal={setShowModal} changeForCustomer={changeForCustomer}/>}
            
-           
-           {/* Suggested amounts with the amount needs to pay */}
-           {showSuggestionButtons? 
-                <SuggestedPrices customerNeedToPay={customerNeedToPay} suggestedAmountOne={suggestedAmountOne} suggestedAmountTwo={suggestedAmountTwo} suggestedAmountThree={suggestedAmountThree} suggestedAmountFour={suggestedAmountFour} handleSuggestedBtn={handleSuggestedBtn} /> 
-           : null}
-            
-          {changeForCustomer}
-           
-           {/* Numeric keypad */}
-           <NumericPad handleButton={handleButton}/>
-            <div>
-                <button onClick={handlePayment}>Payment</button>
-            </div>
         </div>
     )
 }

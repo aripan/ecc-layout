@@ -1,5 +1,7 @@
+
 import { useState } from 'react';
 import './App.css';
+import HeaderPart from './components/HeaderPart';
 import InputFields from './components/InputFields';
 import { formatNumber } from "./components/Logics";
 import NumericKeypad from './components/NumericKeypad';
@@ -14,178 +16,204 @@ function App() {
     const [receivedFromCustomer, setReceivedFromCustomer] = useState("")
     const [changeForCustomer, setChangeForCustomer] = useState("")
     const [showSuggestionButtons, setShowSuggestionButtons] = useState(false)
+    
    
 
     // triggering Enter button for the input field
     const handleInput=(e)=>{
       if(e.key==="Enter"){
+        // if(customerNeedToPay < "1" || customerNeedToPay > "100000"){
+        //   alert("Sorry")
+        // }
+
+        // if(customerNeedToPay === "100000"){
+        //   alert("You have to pay exactly 100000")
+        // }
+        
+          
           setShowSuggestionButtons(true);
+
+          //! amounts in the suggestion button that customer needs to pay
           let formattedValue = customerNeedToPay.replace(/,/g, ".").split("")
           // console.log(customerNeedToPay.replace(/,/g, ".").split(""))
           // formatNumber(formattedValue, setAmountToPay);
           formatNumber(formattedValue, setCustomerNeedToPay);
   
-          //! 1st suggestion
+          //! amounts in the suggestion button as the 1st suggestion
           // let baseAmount= Number(customerNeedToPay.split(",")[0]);
-          let suggestAmountTwoArr = (Number(customerNeedToPay.split(",")[0]) + 1).toString().split("");
-          formatNumber(suggestAmountTwoArr, setSuggestedAmountOne)
+          let suggestedAmountArr = (Number(customerNeedToPay.split(",")[0]) + 1).toString().split("");
+          formatNumber(suggestedAmountArr, setSuggestedAmountOne)
           // setSuggestedAmountOne(baseAmount +1) 
-  
-          //! 2nd suggestion
-          let lastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-1]
-          let secondLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-2]
+
+          // values needed to build logics
+          let lastValueOfArr = suggestedAmountArr[suggestedAmountArr.length-1]
+          let secondLastValueOfArr = suggestedAmountArr[suggestedAmountArr.length-2]
+          let thirdLastValueOfArr = suggestedAmountArr[suggestedAmountArr.length-3]
+          let fourthLastValueOfArr = suggestedAmountArr[suggestedAmountArr.length-4]
           let amountTwoModified;
   
+          //! amounts in the suggestion button as the 2nd suggestion
+ 
           if(lastValueOfArr ==="0" || lastValueOfArr >="5"){
               if(secondLastValueOfArr !== "0" && secondLastValueOfArr !== "9"){
-                  secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
+                  secondLastValueOfArr = (Number(suggestedAmountArr[suggestedAmountArr.length-2])+1).toString()
                   lastValueOfArr = "0"
-                  amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                  amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
                   console.log(amountTwoModified)
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountTwo )
-                  // setSuggestedAmountTwo(suggestAmountTwoArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountTwo )
+                  // setSuggestedAmountTwo(suggestedAmountArr.join(""))
               }
   
               if(secondLastValueOfArr === "0"){
                   secondLastValueOfArr = "1"
                   lastValueOfArr = "0"
   
-                  amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-                  // setSuggestedAmountTwo(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountTwo )
+                  amountTwoModified = suggestedAmountArr.splice(suggestedAmountArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                  // setSuggestedAmountTwo(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountTwo )
               }
   
               if(secondLastValueOfArr === "9"){
-                  let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
+                  thirdLastValueOfArr = thirdLastValueOfArr? thirdLastValueOfArr: "";
                   if(thirdLastValueOfArr){
                       thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
                       secondLastValueOfArr = "0"
                       lastValueOfArr = "0"
   
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }else{
                       thirdLastValueOfArr= "1"
                       secondLastValueOfArr = "0"
                       lastValueOfArr = "0"
   
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }
-                  // setSuggestedAmountTwo(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountTwo )
+                  // setSuggestedAmountTwo(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountTwo )
                   }
              
   
           }else{
               lastValueOfArr = "5"
-              amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-1, 1, lastValueOfArr)
-              // setSuggestedAmountTwo(suggestAmountTwoArr.join(""))
-              formatNumber(suggestAmountTwoArr, setSuggestedAmountTwo ) 
+              amountTwoModified = suggestedAmountArr.splice(suggestedAmountArr.length-1, 1, lastValueOfArr)
+              // setSuggestedAmountTwo(suggestedAmountArr.join(""))
+              formatNumber(suggestedAmountArr, setSuggestedAmountTwo ) 
           }
   
           //! 3rd suggestion
-          console.log(suggestAmountTwoArr) 
+          console.log(suggestedAmountArr) 
   
           // Either lastValueOfArr will be "0" or "5"
   
           if(lastValueOfArr ==="0"){
               if(secondLastValueOfArr==="0" || secondLastValueOfArr>="5"){
-                  let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
                   if(thirdLastValueOfArr){
-                      thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
-                      secondLastValueOfArr = "0"
+                    if(thirdLastValueOfArr === "0" || thirdLastValueOfArr >= "5"){
+                      fourthLastValueOfArr = (Number(fourthLastValueOfArr)+1).toString()
+                      thirdLastValueOfArr = "0"
+                      secondLastValueOfArr="0"
                       lastValueOfArr="0"
+
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-4, 4, fourthLastValueOfArr, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }else {
+                      thirdLastValueOfArr = "5"
+                      secondLastValueOfArr="0"
+                      lastValueOfArr="0"
+
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                    }
                       
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }else{
                       thirdLastValueOfArr= "1"
                       secondLastValueOfArr = "0"
                       lastValueOfArr="0"
                   
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }
-                  // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
+                  // setSuggestedAmountThree(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountThree )
               }else{
                   secondLastValueOfArr = "5"
-                  amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 1, secondLastValueOfArr)
-                  // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
+                  lastValueOfArr="0"
+                  amountTwoModified = suggestedAmountArr.splice(suggestedAmountArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                  // setSuggestedAmountThree(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountThree )
               }
           }else{
               if((secondLastValueOfArr==="0" || secondLastValueOfArr>="5")){
                   if(secondLastValueOfArr ==="9"){
-                      let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
                       if(thirdLastValueOfArr){
                           thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
                           secondLastValueOfArr = "0"
                           lastValueOfArr = "0"
   
-                          amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                          amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                       }else{
                           thirdLastValueOfArr= "1"
                           secondLastValueOfArr = "0"
                           lastValueOfArr = "0"
   
-                          amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                          amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                       }
   
-                      // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
-                      formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
+                      // setSuggestedAmountThree(suggestedAmountArr.join(""))
+                      formatNumber(suggestedAmountArr, setSuggestedAmountThree )
                       
                   } else{
-                      secondLastValueOfArr = (Number(suggestAmountTwoArr[suggestAmountTwoArr.length-2])+1).toString()
+                      secondLastValueOfArr = (Number(suggestedAmountArr[suggestedAmountArr.length-2])+1).toString()
                       lastValueOfArr = "0"
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-                      // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
-                      formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                      // setSuggestedAmountThree(suggestedAmountArr.join(""))
+                      formatNumber(suggestedAmountArr, setSuggestedAmountThree )
                   }
               }else{
                   secondLastValueOfArr = "5"
                   lastValueOfArr = "0"
   
-                  amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
-                  // setSuggestedAmountThree(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountThree )
+                  amountTwoModified = suggestedAmountArr.splice(suggestedAmountArr.length-2, 2, secondLastValueOfArr, lastValueOfArr)
+                  // setSuggestedAmountThree(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountThree )
               }
           }
   
           // //! 4th suggestion
-          console.log(suggestAmountTwoArr) 
+          console.log(suggestedAmountArr) 
           // lastValueOfArr is always is "0"
           // so need to consider on secondLastValueOfArr
           if(secondLastValueOfArr ==="0" || secondLastValueOfArr >="5"){
-              let thirdLastValueOfArr = suggestAmountTwoArr[suggestAmountTwoArr.length-3]? suggestAmountTwoArr[suggestAmountTwoArr.length-3]: "";
+            thirdLastValueOfArr = thirdLastValueOfArr? thirdLastValueOfArr: "";
                   if(thirdLastValueOfArr){
                       thirdLastValueOfArr= (Number(thirdLastValueOfArr)+1).toString()
                       secondLastValueOfArr = "0"
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-3, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }else{
                       thirdLastValueOfArr= "1"
                       secondLastValueOfArr = "0"
                   
-                      amountTwoModified =suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
+                      amountTwoModified =suggestedAmountArr.splice(suggestedAmountArr.length-2, 3, thirdLastValueOfArr, secondLastValueOfArr, lastValueOfArr)
                   }
-                  // setSuggestedAmountFour(suggestAmountTwoArr.join(""))
-                  formatNumber(suggestAmountTwoArr, setSuggestedAmountFour )
+                  // setSuggestedAmountFour(suggestedAmountArr.join(""))
+                  formatNumber(suggestedAmountArr, setSuggestedAmountFour )
           }else{
               secondLastValueOfArr = "5"
   
-              amountTwoModified = suggestAmountTwoArr.splice(suggestAmountTwoArr.length-2, 1, secondLastValueOfArr)
-              // setSuggestedAmountFour(suggestAmountTwoArr.join(""))
-              formatNumber(suggestAmountTwoArr, setSuggestedAmountFour )
+              amountTwoModified = suggestedAmountArr.splice(suggestedAmountArr.length-2, 1, secondLastValueOfArr)
+              // setSuggestedAmountFour(suggestedAmountArr.join(""))
+              formatNumber(suggestedAmountArr, setSuggestedAmountFour )
           }
+          
       }
   }
 
 
   return (
     <div className="App">
-     <h1>Hello</h1>
+        <HeaderPart/>
      <InputFields 
         customerNeedToPay={customerNeedToPay} setCustomerNeedToPay={setCustomerNeedToPay} receivedFromCustomer={receivedFromCustomer} setReceivedFromCustomer={setReceivedFromCustomer} handleInput={handleInput} 
       />
      <NumericKeypad 
-        customerNeedToPay={customerNeedToPay} setCustomerNeedToPay={setCustomerNeedToPay} receivedFromCustomer={receivedFromCustomer} setReceivedFromCustomer={setReceivedFromCustomer} changeForCustomer={changeForCustomer} setChangeForCustomer={setChangeForCustomer} showSuggestionButtons={showSuggestionButtons} setShowSuggestionButtons={setShowSuggestionButtons} suggestedAmountOne={suggestedAmountOne} suggestedAmountTwo={suggestedAmountTwo} suggestedAmountThree={suggestedAmountThree} suggestedAmountFour={suggestedAmountFour} 
+        customerNeedToPay={customerNeedToPay} setCustomerNeedToPay={setCustomerNeedToPay} receivedFromCustomer={receivedFromCustomer} setReceivedFromCustomer={setReceivedFromCustomer} showSuggestionButtons={showSuggestionButtons} setShowSuggestionButtons={setShowSuggestionButtons} suggestedAmountOne={suggestedAmountOne} suggestedAmountTwo={suggestedAmountTwo} suggestedAmountThree={suggestedAmountThree} suggestedAmountFour={suggestedAmountFour} 
       />
     </div>
   );

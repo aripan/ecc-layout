@@ -1,8 +1,9 @@
 import React from 'react'
+import styles from "./NumericKeypad.module.css"
 
 const SuggestedPrices = ({customerNeedToPay, suggestedAmountOne, suggestedAmountTwo, suggestedAmountThree, suggestedAmountFour, handleSuggestedBtn}) => {
     return (
-        <div onClick={handleSuggestedBtn}> 
+        <div onClick={handleSuggestedBtn} className={styles.prices}> 
                 <button> {suggestedAmountFour}</button>
                 <button> {suggestedAmountThree}</button>
                 <button> {suggestedAmountTwo}</button>
